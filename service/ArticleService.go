@@ -3,12 +3,13 @@ package service
 import (
 	"errors"
 	"fmt"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 	"github.com/aws/aws-sdk-go/service/dynamodb/expression"
-	"github.com/chrisxue815/realworld-aws-lambda-dynamodb-go/model"
-	"github.com/chrisxue815/realworld-aws-lambda-dynamodb-go/util"
+	"github.com/rahulzzore/realworld-aws-lambda-dynamodb-go/model"
+	"github.com/rahulzzore/realworld-aws-lambda-dynamodb-go/util"
 )
 
 func PutArticle(article *model.Article) error {

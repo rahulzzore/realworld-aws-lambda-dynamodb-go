@@ -1,6 +1,4 @@
-module github.com/chrisxue815/realworld-aws-lambda-dynamodb-go
-
-go 1.14
+module github.com/rahulzzore/realworld-aws-lambda-dynamodb-go
 
 require (
 	github.com/aws/aws-lambda-go v1.6.0
@@ -11,3 +9,5 @@ require (
 	github.com/stretchr/testify v1.5.1
 	golang.org/x/crypto v0.0.0-20190829043050-9756ffdc2472
 )
+
+go 1.13

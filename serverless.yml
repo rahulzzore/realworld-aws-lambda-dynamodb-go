@@ -6,19 +6,13 @@ provider:
   name: aws
   runtime: go1.x
   stage: ${opt:stage, "dev"}
-  region: ${opt:region, "eu-west-1"}
+  region: ${opt:region, "us-west-2"}
   environment:
     STAGE: ${self:provider.stage}
   iamRoleStatements:
     - Effect: Allow
-      Action:
-        - dynamodb:BatchGetItem
-        - dynamodb:DeleteItem
-        - dynamodb:GetItem
-        - dynamodb:PutItem
-        - dynamodb:Query
-        - dynamodb:UpdateItem
-      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/*"
+      Action: "*"
+      Resource: "*"
 
 package:
   exclude:
@@ -227,6 +221,7 @@ functions:
 
 resources:
   Resources:
+  # Would like to re-architect tables to group resources with similar access patterns...but aint nobody got time for that
     UserTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -436,6 +431,59 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL
+        BillingMode: PROVISIONED
+        ProvisionedThroughput:
+          ReadCapacityUnits: 2
+          WriteCapacityUnits: 2
+
+    PermissionsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: realworld-${self:provider.stage}-permissions
+        AttributeDefinitions:
+          - AttributeName: PrincipalId # USER_<username> or USERGROUP_<groupid>
+            AttributeType: S
+          - AttributeName: ArticleId
+            AttributeType: N
+        KeySchema: # PUT /permissions
+          - AttributeName: PrincipalId
+            KeyType: HASH
+          - AttributeName: ArticleId
+            KeyType: RANGE
+        BillingMode: PROVISIONED
+        ProvisionedThroughput:
+          ReadCapacityUnits: 2
+          WriteCapacityUnits: 2
+
+    MembershipsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: realworld-${self:provider.stage}-memberships
+        AttributeDefinitions:
+          - AttributeName: GroupId # USERGROUP_groupId
+            AttributeType: S
+          - AttributeName: UserId
+            AttributeType: S
+        KeySchema: # PUT /permissions
+          - AttributeName: GroupId
+            KeyType: HASH
+          - AttributeName: UserId
+            KeyType: RANGE
+        BillingMode: PROVISIONED
+        ProvisionedThroughput:
+          ReadCapacityUnits: 2
+          WriteCapacityUnits: 2
+
+    GroupTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: realworld-${self:provider.stage}-groups
+        AttributeDefinitions:
+          - AttributeName: GroupId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: GroupId
+            KeyType: HASH
         BillingMode: PROVISIONED
         ProvisionedThroughput:
           ReadCapacityUnits: 2

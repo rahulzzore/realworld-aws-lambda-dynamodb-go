@@ -37,3 +37,27 @@ func PutPermission(permission model.Permission) error {
 
 	return nil
 }
+
+func GetPermissions(offset, limit int, articleId int64) ([]model.Permission, error) {
+	queryPermissions := dynamodb.QueryInput{
+		TableName:                 aws.String(PermissionTableName),
+		IndexName:                 aws.String("ArticleIdIndex"),
+		KeyConditionExpression:    aws.String("ArticleId=:articleId"),
+		ExpressionAttributeValues: Int64Key(":articleId", articleId),
+		Limit:                     aws.Int64(int64(offset + limit)),
+		ScanIndexForward:          aws.Bool(false),
+	}
+
+	items, err := QueryItems(&queryPermissions, offset, limit)
+	if err != nil {
+		return nil, err
+	}
+
+	permissions := make([]model.Permission, len(items))
+	err = dynamodbattribute.UnmarshalListOfMaps(items, &permissions)
+	if err != nil {
+		return nil, err
+	}
+
+	return permissions, nil
+}

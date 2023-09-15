@@ -226,6 +226,18 @@ functions:
           path: permissions
           method: post
           cors: true
+  
+  permissions-get:
+    handler: bin/permissions-get
+    events:
+      - http:
+          path: permissions/{articleId}
+          method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                articleId: true
 
   groups-post:
     handler: bin/groups-post
@@ -466,6 +478,18 @@ resources:
             KeyType: HASH
           - AttributeName: ArticleId
             KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: ArticleIdIndex
+            KeySchema:
+              - AttributeName: ArticleId
+                KeyType: HASH
+              - AttributeName: PrincipalId
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 2
+              WriteCapacityUnits: 2
         BillingMode: PROVISIONED
         ProvisionedThroughput:
           ReadCapacityUnits: 2

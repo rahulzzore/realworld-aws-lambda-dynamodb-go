@@ -21,12 +21,14 @@ type PermissionRequest struct {
 	AVPPolicyId string `json:"avpPolicyId"`
 }
 
-type PermissionResponse struct {
-}
-
 func Handle(input events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	_, _, err := service.GetCurrentUser(input.Headers["Authorization"])
+	if err != nil {
+		return util.NewUnauthorizedResponse()
+	}
+
 	request := Request{}
-	err := json.Unmarshal([]byte(input.Body), &request)
+	err = json.Unmarshal([]byte(input.Body), &request)
 	if err != nil {
 		return util.NewErrorResponse(err)
 	}

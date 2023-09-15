@@ -7,6 +7,7 @@ import (
 
 var ArticleIdRand = NewRand()
 var CommentIdRand = NewRand()
+var GroupIdRand = NewRand()
 
 type Rand struct {
 	random *rand.Rand

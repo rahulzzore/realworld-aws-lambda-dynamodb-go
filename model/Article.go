@@ -2,9 +2,10 @@ package model
 
 import (
 	"fmt"
-	"github.com/gosimple/slug"
 	"strconv"
 	"strings"
+
+	"github.com/gosimple/slug"
 )
 
 const TimestampFormat = "2006-01-02T15:04:05.000Z"

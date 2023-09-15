@@ -219,6 +219,14 @@ functions:
           method: get
           cors: true
 
+  groups-post:
+    handler: bin/groups-post
+    events:
+      - http:
+          path: groups
+          method: post
+          cors: true
+
 resources:
   Resources:
   # Would like to re-architect tables to group resources with similar access patterns...but aint nobody got time for that

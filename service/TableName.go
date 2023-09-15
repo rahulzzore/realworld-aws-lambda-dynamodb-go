@@ -15,6 +15,7 @@ var ArticleTagTableName = makeTableName("article-tag")
 var TagTableName = makeTableName("tag")
 var FavoriteArticleTableName = makeTableName("favorite-article")
 var CommentTableName = makeTableName("comment")
+var GroupTableName = makeTableName("groups")
 
 func makeTableName(suffix string) string {
 	return fmt.Sprintf("realworld-%s-%s", Stage, suffix)

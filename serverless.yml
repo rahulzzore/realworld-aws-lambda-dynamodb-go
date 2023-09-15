@@ -247,6 +247,42 @@ functions:
           method: post
           cors: true
 
+  groups-slug-put:
+    handler: bin/groups-slug-put
+    events:
+      - http:
+          path: groups/{slug}
+          method: put
+          cors: true
+          request:
+            parameters:
+              paths:
+                slug: true
+
+  groups-slug-get:
+    handler: bin/groups-slug-get
+    events:
+      - http:
+          path: groups/{slug}
+          method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                slug: true
+
+  groups-slug-delete:
+    handler: bin/groups-slug-delete
+    events:
+      - http:
+          path: groups/{slug}
+          method: delete
+          cors: true
+          request:
+            parameters:
+              paths:
+                slug: true
+
 resources:
   Resources:
   # Would like to re-architect tables to group resources with similar access patterns...but aint nobody got time for that

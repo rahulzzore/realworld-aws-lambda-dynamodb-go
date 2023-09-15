@@ -16,6 +16,7 @@ var TagTableName = makeTableName("tag")
 var FavoriteArticleTableName = makeTableName("favorite-article")
 var CommentTableName = makeTableName("comment")
 var GroupTableName = makeTableName("groups")
+var MembershipsTableName = makeTableName("memberships")
 var PermissionTableName = makeTableName("permissions")
 
 func makeTableName(suffix string) string {

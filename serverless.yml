@@ -1,6 +1,6 @@
 service: realworld
 
-frameworkVersion: '>=1.28.0 <2.0.0'
+frameworkVersion: '>=1.28.0 <3.35.0'
 
 provider:
   name: aws
@@ -217,6 +217,14 @@ functions:
       - http:
           path: tags
           method: get
+          cors: true
+  
+  permissions-post:
+    handler: bin/permissions-post
+    events:
+      - http:
+          path: permissions
+          method: post
           cors: true
 
   groups-post:
